@@ -1,0 +1,11 @@
+composer global require laravel/installer // install globally
+
+laravel new example-app // create new app
+
+cd example-app
+
+php artisan serve // run
+
+php artisan make:controller Home // make controller
+
+php artisan make:migration tbl_medicine_list --create=medicine_list // make db table migration
