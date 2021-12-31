@@ -14,6 +14,7 @@
       <th scope="col">Generic</th>
       <th scope="col">Category</th>
       <th scope="col">Pharmaceutical</th>
+      <th scope="col">Action</th>
     </tr>
   </thead>
   @if($medicines)
@@ -27,7 +28,15 @@
       <td class="align-middle">{{ $med->ml_generic }}</td>
       <td class="align-middle">{{ $med->ml_category }}</td>
       <td class="align-middle">{{ $med->ml_pharmaceutical }}</td>
-      
+      <td class="align-middle">
+      <form action="{{ route('medicines.destroy', $med->ml_id) }}" method="post">
+        <a href="{{ route('medicines.show', $med->ml_id)}}" class="btn btn-info">Show</a>
+        <a href="{{ route('medicines.edit', $med->ml_id)}}" class="btn btn-primary">Edit</a>
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure want to delete?')">Delete</button>
+        </form>
+      </td>
 
     </tr>
     @endforeach
