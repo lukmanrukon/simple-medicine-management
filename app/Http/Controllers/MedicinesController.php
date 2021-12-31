@@ -85,6 +85,43 @@ class MedicinesController extends Controller
      * @param  \App\Medicine  $medicine
      * @return \Illuminate\Http\Response
      */
+    public function edit(Medicine $medicine)
+    {
+        $categories = ['Tablet','Capsule', 'Syrup', 'Other'];
+        return view('medicines.edit', compact('medicine', 'categories'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Medicine  $medicine
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Medicine $medicine)
+    {
+        $request->validate([
+            'ml_name' => 'required',
+            'ml_category' => 'required',
+            'ml_desc' => 'required',
+        ]);
+
+        $imageName = '';
+        if ($request->ml_photo) {
+            $imageName = time() . '.' . $request->ml_photo->extension();
+            $request->ml_photo->move(public_path('assets/uploads'), $imageName);
+            $medicine->ml_photo = $imageName;
+        }
+
+        $medicine->ml_name = $request->ml_name;
+        $medicine->ml_generic = $request->ml_generic;
+        $medicine->ml_category = $request->ml_category;
+        $medicine->ml_pharmaceutical = $request->ml_pharmaceutical;
+        $medicine->ml_desc = $request->ml_desc;
+        $medicine->update();
+        return redirect()->route('medicines.index')->with('success', 'Medicine info has been updated successfully.');
+
+    }
 
     /**
      * Remove the specified resource from storage.
